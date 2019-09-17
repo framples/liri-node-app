@@ -37,4 +37,4 @@ Part 4: Random.  One of the 3 earlier parts will run for the user at random.
 
 
 
-![Example](/images/liribotexample.png)
+![Example](/Images/liribotexample.png)
