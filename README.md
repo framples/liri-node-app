@@ -38,4 +38,4 @@ Part 4: Random.  One of the 3 earlier parts will run for the user at random.
 
 
 ![Example](https://github.com/framples33/liri-node-app/blob/master/Images/liribotexample.png)
-![Example2](http://github.com/framples33/liri-node-app/blob/master/Images/liribotexample2.png)
+![Example2](https://github.com/framples33/liri-node-app/blob/master/Images/liribotexample2.png)
