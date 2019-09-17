@@ -5,10 +5,43 @@ let axios = require("axios");
 let moment = require("moment");
 let fs = require("fs");
 let Spotify = require("node-spotify-api");
-let spotify = new Spotify("keys.spotify");
 
+let spotify = new Spotify("keys.spotify");
 let userSearch = process.argv[3];
 let userRequest = process.argv[2];
+
+
+
+function userInput() {
+    switch (userRequest) {
+        case "concert-this":
+            concertThis(userSearch);
+            break;
+
+        case "spotify-this-song":
+            spotifySong(userSearch);
+            break;
+
+        case "movie-this":
+            movieThis(userSearch);
+            break;
+
+        case "do-what-it-says":
+            asItSays();
+            break;
+        
+        default:
+            console.log("Please enter valid information");
+            break;
+    }
+};
+
+
+
+
+
+
+
 
 //Liri needs to take in the follow commands
 
@@ -21,6 +54,10 @@ This will search the Bands in Town Artist Events API ("https://rest.bandsintown.
 Name of the venue
 Venue location
 Date of the Event (use moment to format this as "MM/DD/YYYY") */
+
+
+
+
 
 
 
@@ -66,30 +103,30 @@ function movieThis(movie) {
         movie = userSearch;
     };
 
-var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
-console.log(queryUrl);
+    let queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
+    console.log(queryUrl);
 
-axios.get(queryUrl).then(
-    function (response) {
-        if (response.data.Title != undefined) {
-        console.log("Title: " + response.data.Title);
-        console.log("Release Year: " + response.data.Year);
-        console.log("IMDB Rating " + response.data.imdbRating);
-        console.log("Rotten Tomatoes Rating: " + response.data.tomatoRating);
-        console.log("Produced in: " + response.data.Country);
-        console.log("Language: " + response.data.Language);
-        console.log("Plot: " + response.data.Plot);
-        console.log("Actors: " + response.data.Actors);
-    }
-}
+    axios.get(queryUrl).then(
+        function (response) {
+            if (response.data.Title != undefined) {
+                console.log("Title: " + response.data.Title);
+                console.log("Release Year: " + response.data.Year);
+                console.log("IMDB Rating " + response.data.imdbRating);
+                console.log("Rotten Tomatoes Rating: " + response.data.tomatoRating);
+                console.log("Produced in: " + response.data.Country);
+                console.log("Language: " + response.data.Language);
+                console.log("Plot: " + response.data.Plot);
+                console.log("Actors: " + response.data.Actors);
+            }
+        }
     ).catch(function (error) {
-        
-    console.log(error);
-    console.log("Error");
+
+        console.log(error);
+        console.log("Error");
     });
 }
 
-    
+
 
 
 
