@@ -29,7 +29,7 @@ function userInput() {
         case "do-what-it-says":
             asItSays();
             break;
-        
+
         default:
             console.log("Please enter valid information");
             break;
@@ -55,6 +55,36 @@ Name of the venue
 Venue location
 Date of the Event (use moment to format this as "MM/DD/YYYY") */
 
+function concertThis(artist) {
+    if (userRequest === "concert-this") {
+        let artist = "";
+        for (var i = 3; i < process.argv.length; i++) {
+            band += process.argv[i];
+        }
+        console.log(artist);
+    } else {
+        artist = userSearch;
+    }
+
+    axios.get("http://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
+
+        function (response) {
+            if (response.data[0].venue != undefined) {
+                console.log("Name of Venue: " + response.data[0].venue.name);
+                console.log("Venue Location: " + response.data[0].venue.city);
+
+                let eventDate = moment(response.data[0].datetime);
+                console.log("Date of Event: " + eventDate.format("MM/DD/YYYY"));
+            } else {
+                console.log("Sorry - we can't find what you're looking for.");
+            }
+        }
+    ).catch(function (error) {
+        console.log(error);
+        console.log("Error");
+    });
+}
+
 
 
 
@@ -71,6 +101,30 @@ Artist(s)
 The song's name
 A preview link of the song from Spotify
 The album that the song is from */
+
+
+function spotifySong(userSearch) {
+
+    let song = "";
+    if (userSearch === undefined) {
+        song = "Wilson Phillips Hold On";
+    } else {
+        song = userSearch;
+    }
+
+    spotify.search({
+        type: "track", query: song
+    }, function (error, data) {
+        if (error) {
+            return console.log("Error: " + error);
+        } else {
+            console.log("Artist: " + data.tracks.items[0].name);
+            console.log("Song Title: " + data.tracks.items[0].name);
+            console.log("Album: " + data.tracks.items[0].album.name);
+            console.log("Preview of song: " + data.tracks.items[3].preview_url);
+        }
+    });
+};
 
 
 
