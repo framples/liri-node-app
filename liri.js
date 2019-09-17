@@ -5,9 +5,13 @@ let axios = require("axios");
 let moment = require("moment");
 let fs = require("fs");
 let Spotify = require("node-spotify-api");
+let request = require("request");
 
-let spotify = new Spotify("keys.spotify");
-let userSearch = process.argv[3];
+let spotify = new Spotify({
+    id: "6ab6f6a9326c4c9590a99fe063fa8ab2",
+    secret: "cbb7019ce1da4e218d6883e42ca0234b"
+});
+let userSearch = process.argv.splice(3);
 let userRequest = process.argv[2];
 
 
@@ -55,7 +59,7 @@ Name of the venue
 Venue location
 Date of the Event (use moment to format this as "MM/DD/YYYY") */
 
-function concertThis(artist) {
+ function concertThis(artist) {
     if (userRequest === "concert-this") {
         let artist = "";
         for (var i = 3; i < process.argv.length; i++) {
@@ -83,9 +87,19 @@ function concertThis(artist) {
         console.log(error);
         console.log("Error");
     });
-}
+};
 
 
+  
+           /* var data = JSON.parse(body);
+
+                //Get date of show
+                var date = data[i].datetime;
+                date = moment(date).format("MM/DD/YYYY");
+                console.log("Date: " + date);
+                //Append data to log.txt
+
+*/
 
 
 
@@ -105,20 +119,21 @@ The album that the song is from */
 
 function spotifySong(userSearch) {
 
-    let song = "";
-    if (userSearch === undefined) {
+    let song;
+    if (userSearch === "") {
         song = "Wilson Phillips Hold On";
     } else {
         song = userSearch;
     }
 
     spotify.search({
-        type: "track", query: song
+        type: "track",
+        query: song
     }, function (error, data) {
         if (error) {
             return console.log("Error: " + error);
         } else {
-            console.log("Artist: " + data.tracks.items[0].name);
+            console.log("Artist: " + data.tracks.items[0].artists[0].name);
             console.log("Song Title: " + data.tracks.items[0].name);
             console.log("Album: " + data.tracks.items[0].album.name);
             console.log("Preview of song: " + data.tracks.items[3].preview_url);
@@ -149,7 +164,7 @@ This will output the following information to your terminal/bash window:
 
 function movieThis(movie) {
 
-    let movie;
+
     if (userSearch === undefined) {
         movie = "Mr. Nobody";
         console.log("Go watch Mr. Nobody");
@@ -158,7 +173,7 @@ function movieThis(movie) {
     };
 
     let queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
-    console.log(queryUrl);
+
 
     axios.get(queryUrl).then(
         function (response) {
@@ -166,7 +181,7 @@ function movieThis(movie) {
                 console.log("Title: " + response.data.Title);
                 console.log("Release Year: " + response.data.Year);
                 console.log("IMDB Rating " + response.data.imdbRating);
-                console.log("Rotten Tomatoes Rating: " + response.data.tomatoRating);
+                // console.log("Rotten Tomatoes Rating: " + response.data);
                 console.log("Produced in: " + response.data.Country);
                 console.log("Language: " + response.data.Language);
                 console.log("Plot: " + response.data.Plot);
@@ -188,7 +203,7 @@ function movieThis(movie) {
 
 
 
-  //do-what-it-says--------------------------------------------------------------------------------------------
+//do-what-it-says--------------------------------------------------------------------------------------------
 /* node liri.js do-what-it-says
 
 
@@ -199,3 +214,5 @@ It should run spotify-this-song for "I Want it That Way," as follows the text in
 
 
 Edit the text in random.txt to test out the feature for movie-this and concert-this. */
+
+userInput();
