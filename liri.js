@@ -66,7 +66,14 @@ console.log(queryUrl);
 
 axios.get(queryUrl).then(
     function (response) {
+        console.log("Title: " + response.data.Title);
         console.log("Release Year: " + response.data.Year);
+        console.log("IMDB Rating " + response.data.imdbRating);
+        console.log("Rotten Tomatoes Rating: " + response.data.RottenTomatoes);
+        console.log("Produced in: " + response.data.Country);
+        console.log("Language: " + response.data.Language);
+        console.log("Plot: " + response.data.Plot);
+        console.log("Actors: " + response.data.Actors);
     })
     .catch(function (error) {
         if (error.response) {
