@@ -35,3 +35,6 @@ Part 3: Concert Finder.  By typing in 'node liri.js concert-this _whatever conce
 
 Part 4: Random.  One of the 3 earlier parts will run for the user at random. 
 
+
+
+![Example](/images/liribotexample.png)
