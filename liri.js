@@ -1,7 +1,14 @@
 require("dotenv").config();
 
 let keys = require("./key");
+let axios = require("axios");
+let moment = require("moment");
+let fs = require("fs");
+let Spotify = require("node-spotify-api");
+let spotify = new Spotify("keys.spotify");
 
+let userSearch = process.argv[3];
+let userRequest = process.argv[2];
 
 //Liri needs to take in the follow commands
 
@@ -49,49 +56,42 @@ This will output the following information to your terminal/bash window:
   * Plot of the movie.
   * Actors in the movie. */
 
-let axios = require("axios");
-let nodeArgs = process.argv;
-let movieName = "";
+function movieThis(movie) {
 
-for (var i = 2; i < nodeArgs.length; i++) {
-    if (i > 2 && i < nodeArgs.length) {
-        movieName = movieName + "+" + nodeArgs[i];
+    let movie;
+    if (userSearch === undefined) {
+        movie = "Mr. Nobody";
+        console.log("Go watch Mr. Nobody");
     } else {
-        movieName += nodeArgs[i];
-    }
-}
+        movie = userSearch;
+    };
 
-var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 console.log(queryUrl);
 
 axios.get(queryUrl).then(
     function (response) {
+        if (response.data.Title != undefined) {
         console.log("Title: " + response.data.Title);
         console.log("Release Year: " + response.data.Year);
         console.log("IMDB Rating " + response.data.imdbRating);
-        console.log("Rotten Tomatoes Rating: " + response.data.RottenTomatoes);
+        console.log("Rotten Tomatoes Rating: " + response.data.tomatoRating);
         console.log("Produced in: " + response.data.Country);
         console.log("Language: " + response.data.Language);
         console.log("Plot: " + response.data.Plot);
         console.log("Actors: " + response.data.Actors);
-    })
-    .catch(function (error) {
-        if (error.response) {
-            console.log("---------------Data---------------");
-            console.log(error.response.data);
-            console.log("---------------Status---------------");
-            console.log(error.response.status);
-            console.log("---------------Status---------------");
-            console.log(error.response.headers);
-
-        } else if (error.request) {
-            console.log(error.request);
-        } else {
-            console.log("Error", error.message);
-        }
-
-        console.log("error.config");
+    }
+}
+    ).catch(function (error) {
+        
+    console.log(error);
+    console.log("Error");
     });
+}
+
+    
+
+
 
 
 
