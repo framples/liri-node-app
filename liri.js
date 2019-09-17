@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-let keys =  require("./key");
+let keys = require("./key");
 
 
 //Liri needs to take in the follow commands
@@ -49,10 +49,48 @@ This will output the following information to your terminal/bash window:
   * Plot of the movie.
   * Actors in the movie. */
 
+let axios = require("axios");
+let nodeArgs = process.argv;
+let movieName = "";
+
+for (var i = 2; i < nodeArgs.length; i++) {
+    if (i > 2 && i < nodeArgs.length) {
+        movieName = movieName + "+" + nodeArgs[i];
+    } else {
+        movieName += nodeArgs[i];
+    }
+}
+
+var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+console.log(queryUrl);
+
+axios.get(queryUrl).then(
+    function (response) {
+        console.log("Release Year: " + response.data.Year);
+    })
+    .catch(function (error) {
+        if (error.response) {
+            console.log("---------------Data---------------");
+            console.log(error.response.data);
+            console.log("---------------Status---------------");
+            console.log(error.response.status);
+            console.log("---------------Status---------------");
+            console.log(error.response.headers);
+
+        } else if (error.request) {
+            console.log(error.request);
+        } else {
+            console.log("Error", error.message);
+        }
+
+        console.log("error.config");
+    });
 
 
 
-//do-what-it-says--------------------------------------------------------------------------------------------
+
+
+  //do-what-it-says--------------------------------------------------------------------------------------------
 /* node liri.js do-what-it-says
 
 
@@ -62,4 +100,4 @@ Using the fs Node package, LIRI will take the text inside of random.txt and then
 It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
 
 
-Edit the text in random.txt to test out the feature for movie-this and concert-this. */ 
+Edit the text in random.txt to test out the feature for movie-this and concert-this. */
